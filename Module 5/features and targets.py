@@ -6,6 +6,7 @@ Your function should return a tuple of:
 features: a NumPy array of dimensions m ⨉ 4, where m is the number of galaxies;
 targets: a 1D NumPy array of length m, containing the redshift for each galaxy.
 The data argument will be the structured array described on the previous slide. The u flux magnitudes and redshifts can be accessed as a column with data['u'] and data['redshift'].
+
 """
 import numpy as np
 data = np.load(r"Module 5\sdss_galaxy_colors.npy")
