@@ -10,12 +10,11 @@ def get_features_targets(data):
     return features.transpose(), targets
 colour_indexes,redshifts=get_features_targets(data)
 colour_indexes = colour_indexes[:,::2]
-#redshifts=np.clip(redshifts,None,3.5)
 norm = plt.Normalize(vmin=0, vmax=redshifts[np.argmax(redshifts)]/2)
 plt.scatter(colour_indexes[:,0],colour_indexes[:,1],lw=0,s=2.5,c=redshifts,cmap="YlOrRd",norm=norm)
+plt.colorbar(label='Redshift')
 plt.xlim(-0.5,2.5)
 plt.ylim(-0.4,1)
-plt.colorbar(label='Redshift')
 plt.xlabel("Colour index u-g")
 plt.ylabel("Colour index i-r")
 plt.title("Redshift (colour) u-g vs r-i")
