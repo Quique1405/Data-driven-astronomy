@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import KFold
 def get_features_targets(data):
@@ -28,12 +27,21 @@ def cross_validate_model(model, features, targets, k):
         median_diffs.append(median_diff(predictions, test_targets))
     # return the list with your median difference values
     return median_diffs
+def split_galaxies_qsos(data):
+  # split the data into galaxies and qsos arrays
+  Spec=data['spec_class']
+  galaxies=data[Spec==b'GALAXY']
+  qsos=data[Spec==b'QSO']
+  return galaxies,qsos
+def cross_validate_median_diff(data):
+  features, targets = get_features_targets(data)
+  dtr = DecisionTreeRegressor(max_depth=19)
+  return np.mean(cross_validate_model(dtr, features, targets, 10))
+
 data = np.load(r'Module 5\5a\sdss_galaxy_colors.npy')
-features, targets = get_features_targets(data)
-# initialize model with a maximum depth of 19
-dtr = DecisionTreeRegressor(max_depth=19)
 
-diffs = cross_validate_model(dtr, features, targets, 10)
-
-print('Differences: {}'.format(', '.join(['{:.3f}'.format(val) for val in diffs])))
-print('Mean difference: {:.3f}'.format(np.mean(diffs)))
+galaxies, qsos= split_galaxies_qsos(data)
+galaxy_med_diff = cross_validate_median_diff(galaxies)
+qso_med_diff = cross_validate_median_diff(qsos)
+print("Median difference for Galaxies: {:.3f}".format(galaxy_med_diff))
+print("Median difference for QSOs: {:.3f}".format(qso_med_diff))
