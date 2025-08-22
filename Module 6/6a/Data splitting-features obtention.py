@@ -15,12 +15,23 @@ testing_set: the second value is a NumPy array testing set.
 """
 import numpy as np
 def splitdata_train_test(data,fraction):
-    indi=len(data)//(1/fraction)
-    print(indi)
-    print(int(indi))
+    indi=int(len(data)*fraction)
     training_set,testing_set=data[:indi],data[indi:]
     return training_set,testing_set
+
+def generate_features_targets(data):
+    features=np.empty(shape=(len(data),13))
+    for i in range(10):
+        features[:,i]=data[data.dtype.names[i]]
+    for j in range(10,13):
+        features[:,j]=data[data.dtype.names[j]]/data[data.dtype.names[j+3]]
+    targets=data['class']
+    return features,targets
 data=np.load(r"Module 6\galaxy_catalogue.npy")
 train_set,test_set=splitdata_train_test(data,0.7)
-print("Training set size:", len(train_set))
-print("Testing set size:", len(test_set))
+features, targets =generate_features_targets(data)
+print(data.dtype.names)
+print((data[data.dtype.names[10]]/data[data.dtype.names[10+3]])[0])
+concu=data[data.dtype.names[10]]/data[data.dtype.names[10+3]]
+print(concu[0])
+print(features[0])
