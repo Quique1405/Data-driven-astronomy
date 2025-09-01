@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import KFold
+
 def get_features_targets(data):
   features = np.zeros((data.shape[0], 4))
   features[:, 0] = data['u'] - data['g']

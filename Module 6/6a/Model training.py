@@ -16,6 +16,7 @@ def generate_features_targets(data):
 
 # complete this function by splitting the data set and training a decision tree classifier
 def dtc_predict_actual(data):
+    np.random.shuffle(data)
   # split the data into training and testing sets using a training fraction of 0.7
     training_set,testing_set=splitdata_train_test(data,0.7)
   # generate the feature and targets for the training and test sets
@@ -31,7 +32,6 @@ def dtc_predict_actual(data):
   # return the predictions and the test_targets
     return predictions,targets_test
 data=np.load(r"Module 6\galaxy_catalogue.npy")
-np.random.shuffle(data)
 predicted_class, actual_class = dtc_predict_actual(data)
 for i in range(10):
     print("{}. {}, {}".format(i, predicted_class[i], actual_class[i]))
